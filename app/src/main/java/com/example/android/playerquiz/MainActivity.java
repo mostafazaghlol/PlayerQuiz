@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         Players.put("Benzema",R.mipmap.benzema);
         try {
             image1.setImageResource(Players.get("Messi"));
-            image2.setImageResource(Players.get("Benzema"));
+            image2.setImageResource(Players.get("Ronaldo"));
         }catch (Exception e){
             Log.e("MainActivity"," "+e.getMessage());
         }
