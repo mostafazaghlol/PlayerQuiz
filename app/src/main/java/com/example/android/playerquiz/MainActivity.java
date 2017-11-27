@@ -2,8 +2,10 @@ package com.example.android.playerquiz;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     HashMap<String,Integer> Players=new HashMap<>();
     ImageView image1,image2;
     TextView txPlayer;
+    String TPlayerImage1, TPlayerImage2;
+    byte count = 0;
 
 
     @Override
@@ -29,7 +33,15 @@ public class MainActivity extends AppCompatActivity {
         Players.put("aita", R.mipmap.aita);
         Players.put("lukaku", R.mipmap.lukaku);
 
-        setImagesAndName("benzemA", image2);
+        setImageAndName("benzemA", image2);
+
+        image2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isPlayer("benzema", image2);
+                Toast.makeText(MainActivity.this, String.valueOf(count), Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
@@ -37,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     /*
     *setImages used to set the imageViews with the new pics.
      */
-    private void setImagesAndName(String player1, ImageView IM) {
+    private void setImageAndName(String player1, ImageView IM) {
         //make text in lowercase.
         player1 = player1.toLowerCase();
 
@@ -45,8 +57,10 @@ public class MainActivity extends AppCompatActivity {
         //players is a hashmap
         IM.setImageResource(Players.get(player1));
         if (IM == image1) {
+            TPlayerImage1 = player1;
             setSecondImage(Players.get(player1), image2);
         } else {
+            TPlayerImage2 = player1;
             setSecondImage(Players.get(player1), image1);
         }
         txPlayer.setText(player1);
@@ -65,19 +79,32 @@ public class MainActivity extends AppCompatActivity {
             randomValue = valuesList.get(randomIndex);
         } while (randomValue == player1ID);
 
+
         IM.setImageResource(randomValue);
     }
 
-   /* private int setRandomPlayer(){
-        List<Integer> valuesList = new ArrayList<>(Players.values());
-        int randomIndex = new Random().nextInt(valuesList.size());
+    private void isPlayer(String PlayerName, ImageView IM) {
+        PlayerName = PlayerName.toLowerCase();
+        /*
+        if the player hit imageView  and it is the correct answer so add increment @count by 1
+         and else if it will return nothing
+         */
+        if (IM == image1) {
+            if (PlayerName.equals(TPlayerImage1)) {
+                count++;
+                //Toast.makeText(this, "HI", Toast.LENGTH_SHORT).show();
 
-        Integer randomValue;
-        randomValue = valuesList.get(randomIndex);
+            }
+        } else if (IM == image2) {
+            if (PlayerName.equals(TPlayerImage2)) {
+                count++;
+                //Toast.makeText(this, "HI", Toast.LENGTH_SHORT).show();
 
-        return randomValue;
+            }
+        }
 
 
-    }*/
+    }
+
 
 }
